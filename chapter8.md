@@ -48,7 +48,7 @@
 1. `android/build.gradle` 파일에 아래 추가(plugins 섹션)
    ```gradle
    classpath 'com.google.gms:google-services:4.3.15'
-````
+   ```
 
 2. `android/app/build.gradle` 맨 아래에 추가
 
