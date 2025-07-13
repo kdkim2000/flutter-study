@@ -1,51 +1,50 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+// 상태 데이터 클래스 (ChangeNotifier 상속)
+class CounterModel extends ChangeNotifier {
+  int count = 0;
+
+  void increase() {
+    count++;
+    notifyListeners(); // 값이 바뀌면 UI에 알림
+  }
+}
 
 void main() {
-  runApp(const MyApp());
+  runApp(
+    ChangeNotifierProvider(
+      create: (context) => CounterModel(),
+      child: MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: Scaffold(
-        appBar: AppBar(title: Text('내 프로필 카드')),
-        body: Center(
-          child: Container(
-            width: 300,
-            padding: EdgeInsets.all(20),
-            decoration: BoxDecoration(
-              color: Colors.blue[100],
-              borderRadius: BorderRadius.circular(16),
-              boxShadow: [
-                BoxShadow(color: Colors.grey, blurRadius: 4, offset: Offset(2, 2))
-              ],
+      home: CounterScreen(),
+    );
+  }
+}
+
+class CounterScreen extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    final counter = Provider.of<CounterModel>(context);
+    return Scaffold(
+      appBar: AppBar(title: Text('Provider 카운터')),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text('${counter.count}', style: TextStyle(fontSize: 40)),
+            ElevatedButton(
+              onPressed: counter.increase,
+              child: Text('증가'),
             ),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                CircleAvatar(
-                  radius: 40,
-                  backgroundImage: NetworkImage('https://i.pravatar.cc/150?img=3'),
-                ),
-                SizedBox(height: 16),
-                Text('홍길동', style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold)),
-                SizedBox(height: 8),
-                Text('Flutter 개발자', style: TextStyle(fontSize: 16)),
-                SizedBox(height: 16),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Icon(Icons.email, color: Colors.blue),
-                    SizedBox(width: 8),
-                    Text('hong@example.com'),
-                  ],
-                )
-              ],
-            ),
-          ),
+          ],
         ),
       ),
     );

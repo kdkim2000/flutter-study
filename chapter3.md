@@ -8,7 +8,7 @@ Flutter 프로젝트를 만들면 다양한 폴더와 파일이 자동으로 생
 
 ```
 
-my\_first\_flutter/
+my_first_flutter/
 │
 ├─ android/      # 안드로이드 네이티브 관련 파일
 ├─ ios/          # iOS 네이티브 관련 파일
@@ -57,7 +57,7 @@ class MyApp extends StatelessWidget {
 ````
 
 * `runApp(...)`: 최상위 위젯(MyApp)을 화면에 그린다.
-* 모든 UI는 \*\*위젯(Widget)\*\*으로 구성된다.
+* 모든 UI는 **위젯(Widget)** 으로 구성된다.
 
 ---
 
