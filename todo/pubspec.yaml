@@ -1,5 +1,5 @@
-name: my_first_flutter
-description: "my_first_flutter"
+name: todo
+description: "A new Flutter project."
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
@@ -30,17 +30,8 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  provider: ^6.0.5
-  url_launcher: ^6.2.6
-  intl: ^0.18.1
-  shared_preferences: ^2.2.2
-  http: ^1.2.1
-  dio: ^5.4.1
-  image_picker: ^1.0.7
-  flutter_svg: ^2.0.10+1
-  cached_network_image: ^3.3.1
-  firebase_core: ^2.31.0
-  cloud_firestore: ^4.16.1
+  firebase_core: ^3.15.1
+  cloud_firestore: ^4.15.8
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.

@@ -5,7 +5,7 @@
 ## 9.1 앱 기획과 목표
 
 이번 장에서는 지금까지 배운 내용을 바탕으로  
-**실제로 쓸 수 있는 ‘할 일 목록(ToDo) 앱’**을 완성합니다.
+**실제로 쓸 수 있는 ‘할 일 목록(ToDo) 앱’** 을 완성합니다.
 
 - 할 일 추가/삭제/완료 체크
 - Firebase Firestore에 실시간 저장
@@ -20,10 +20,10 @@
 
 lib/
 main.dart             # 앱 진입점, Firebase 초기화, MaterialApp 설정
-todo\_item.dart        # 할 일 데이터 모델 클래스
-todo\_list\_page.dart   # 할 일 목록 UI/기능 메인 화면
-add\_todo\_dialog.dart  # 할 일 추가 다이얼로그
-(firebase\_options.dart) # Firebase 설정 (자동 생성)
+todo_item.dart        # 할 일 데이터 모델 클래스
+todo_list_page.dart   # 할 일 목록 UI/기능 메인 화면
+add_todo_dialog.dart  # 할 일 추가 다이얼로그
+(firebase_options.dart) # Firebase 설정 (자동 생성)
 
 ````
 
@@ -71,7 +71,7 @@ class TodoApp extends StatelessWidget {
 
 ---
 
-### 2) todo\_item.dart
+### 2) todo_item.dart
 
 할 일(Todo) 데이터 구조 모델
 
@@ -105,7 +105,7 @@ class TodoItem {
 
 ---
 
-### 3) add\_todo\_dialog.dart
+### 3) add_todo_dialog.dart
 
 할 일을 입력하는 다이얼로그
 (코드의 재사용성, UI 분리를 위해 별도 파일로 분리)
@@ -163,7 +163,7 @@ class _AddTodoDialogState extends State<AddTodoDialog> {
 
 ---
 
-### 4) todo\_list\_page.dart
+### 4) todo_list_page.dart
 
 할 일 목록을 보여주고, Firestore와 실시간 연동
 할 일 추가, 완료 토글, 삭제 기능 포함
