@@ -4,7 +4,7 @@
 
 ## 7.1 외부 패키지란?
 
-- **패키지(package)**는 Flutter/Dart 개발에 필요한 기능들을  
+- **패키지(package)** 는 Flutter/Dart 개발에 필요한 기능들을  
   미리 만들어둔 코드(라이브러리)입니다.
 - 대표적인 예: 네트워크 통신, 날짜 처리, 상태관리, 이미지 캐싱, 아이콘, 애니메이션 등
 - **pub.dev**에서 공식·비공식 수만 개의 패키지를 무료로 이용할 수 있습니다.
@@ -214,12 +214,620 @@ class DateFormatApp extends StatelessWidget {
 
 ---
 
+### provider – 상태 관리
+
+pubspec.yaml  
+```yaml
+dependencies:
+  provider: ^6.0.5
+````
+
+예제 코드
+
+```dart
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+void main() {
+  runApp(
+    ChangeNotifierProvider(
+      create: (context) => Counter(),
+      child: MyApp(),
+    ),
+  );
+}
+
+class Counter extends ChangeNotifier {
+  int count = 0;
+  void increase() {
+    count++;
+    notifyListeners();
+  }
+}
+
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: Scaffold(
+        appBar: AppBar(title: Text('Provider 예제')),
+        body: Center(
+          child: Consumer<Counter>(
+            builder: (context, counter, child) => Text(
+              '${counter.count}',
+              style: TextStyle(fontSize: 40),
+            ),
+          ),
+        ),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () => context.read<Counter>().increase(),
+          child: Icon(Icons.add),
+        ),
+      ),
+    );
+  }
+}
+```
+
+---
+
+### shared\_preferences – 간단한 데이터 저장
+
+pubspec.yaml
+
+```yaml
+dependencies:
+  shared_preferences: ^2.2.2
+```
+
+예제 코드
+
+```dart
+import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+void main() => runApp(PrefsDemo());
+
+class PrefsDemo extends StatefulWidget {
+  @override
+  State<PrefsDemo> createState() => _PrefsDemoState();
+}
+
+class _PrefsDemoState extends State<PrefsDemo> {
+  int _counter = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    _load();
+  }
+
+  Future<void> _load() async {
+    final prefs = await SharedPreferences.getInstance();
+    setState(() {
+      _counter = prefs.getInt('counter') ?? 0;
+    });
+  }
+
+  Future<void> _increment() async {
+    final prefs = await SharedPreferences.getInstance();
+    setState(() {
+      _counter++;
+      prefs.setInt('counter', _counter);
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: Scaffold(
+        appBar: AppBar(title: Text('shared_preferences 예제')),
+        body: Center(child: Text('$_counter', style: TextStyle(fontSize: 40))),
+        floatingActionButton: FloatingActionButton(
+          onPressed: _increment,
+          child: Icon(Icons.add),
+        ),
+      ),
+    );
+  }
+}
+```
+
+---
+
+### http – REST API 통신
+
+pubspec.yaml
+
+```yaml
+dependencies:
+  http: ^1.2.1
+```
+
+예제 코드
+
+```dart
+import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
+
+void main() => runApp(HttpDemo());
+
+class HttpDemo extends StatefulWidget {
+  @override
+  State<HttpDemo> createState() => _HttpDemoState();
+}
+
+class _HttpDemoState extends State<HttpDemo> {
+  String result = '로딩중...';
+
+  @override
+  void initState() {
+    super.initState();
+    fetchData();
+  }
+
+  Future<void> fetchData() async {
+    final url = Uri.parse('https://jsonplaceholder.typicode.com/todos/1');
+    final res = await http.get(url);
+    if (res.statusCode == 200) {
+      final data = json.decode(res.body);
+      setState(() => result = data.toString());
+    } else {
+      setState(() => result = '에러: ${res.statusCode}');
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: Scaffold(
+        appBar: AppBar(title: Text('http 패키지 예제')),
+        body: Center(child: Text(result)),
+      ),
+    );
+  }
+}
+```
+
+---
+
+### dio – 고급 HTTP 통신
+
+pubspec.yaml
+
+```yaml
+dependencies:
+  dio: ^5.4.1
+```
+
+예제 코드
+
+```dart
+import 'package:flutter/material.dart';
+import 'package:dio/dio.dart';
+
+void main() => runApp(DioDemo());
+
+class DioDemo extends StatefulWidget {
+  @override
+  State<DioDemo> createState() => _DioDemoState();
+}
+
+class _DioDemoState extends State<DioDemo> {
+  String result = '로딩중...';
+
+  @override
+  void initState() {
+    super.initState();
+    fetchData();
+  }
+
+  Future<void> fetchData() async {
+    final dio = Dio();
+    try {
+      final res = await dio.get('https://jsonplaceholder.typicode.com/posts/1');
+      setState(() => result = res.data.toString());
+    } catch (e) {
+      setState(() => result = '에러: $e');
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: Scaffold(
+        appBar: AppBar(title: Text('dio 패키지 예제')),
+        body: Center(child: Text(result)),
+      ),
+    );
+  }
+}
+```
+
+---
+
+### intl – 날짜/시간/숫자 포맷
+
+pubspec.yaml
+
+```yaml
+dependencies:
+  intl: ^0.18.1
+```
+
+예제 코드
+
+```dart
+import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+
+void main() => runApp(IntlDemo());
+
+class IntlDemo extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    final now = DateTime.now();
+    final formatted = DateFormat('yyyy-MM-dd E HH:mm:ss', 'ko_KR').format(now);
+    final number = NumberFormat('#,###').format(1234567);
+
+    return MaterialApp(
+      home: Scaffold(
+        appBar: AppBar(title: Text('intl 패키지 예제')),
+        body: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text('날짜: $formatted', style: TextStyle(fontSize: 18)),
+              SizedBox(height: 16),
+              Text('숫자 포맷: $number', style: TextStyle(fontSize: 18)),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+```
+
+---
+
+### url\_launcher – 앱 외부 링크 실행
+
+pubspec.yaml
+
+```yaml
+dependencies:
+  url_launcher: ^6.2.6
+```
+
+예제 코드
+
+```dart
+import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
+
+void main() => runApp(UrlLauncherDemo());
+
+class UrlLauncherDemo extends StatelessWidget {
+  void _launchUrl(String url) async {
+    final uri = Uri.parse(url);
+    if (await canLaunchUrl(uri)) {
+      await launchUrl(uri);
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: Scaffold(
+        appBar: AppBar(title: Text('url_launcher 예제')),
+        body: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              ElevatedButton(
+                onPressed: () => _launchUrl('https://flutter.dev'),
+                child: Text('웹사이트 열기'),
+              ),
+              ElevatedButton(
+                onPressed: () => _launchUrl('tel:01012345678'),
+                child: Text('전화 걸기'),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+```
+
+---
+
+### image\_picker – 갤러리/카메라 사진
+
+pubspec.yaml
+
+```yaml
+dependencies:
+  image_picker: ^1.0.7
+```
+
+예제 코드
+
+```dart
+import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
+import 'dart:io';
+
+void main() => runApp(ImagePickerDemo());
+
+class ImagePickerDemo extends StatefulWidget {
+  @override
+  State<ImagePickerDemo> createState() => _ImagePickerDemoState();
+}
+
+class _ImagePickerDemoState extends State<ImagePickerDemo> {
+  File? _image;
+
+  Future<void> _pickImage() async {
+    final picker = ImagePicker();
+    final picked = await picker.pickImage(source: ImageSource.gallery);
+    if (picked != null) {
+      setState(() => _image = File(picked.path));
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: Scaffold(
+        appBar: AppBar(title: Text('image_picker 예제')),
+        body: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              _image != null
+                  ? Image.file(_image!, width: 200, height: 200)
+                  : Text('이미지가 없습니다'),
+              SizedBox(height: 20),
+              ElevatedButton(
+                onPressed: _pickImage,
+                child: Text('갤러리에서 사진 선택'),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+```
+
+---
+
+### flutter\_svg – SVG 이미지 렌더링
+
+pubspec.yaml
+
+```yaml
+dependencies:
+  flutter_svg: ^2.0.10+1
+```
+
+예제 코드
+
+```dart
+import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+
+void main() => runApp(SvgDemo());
+
+class SvgDemo extends StatelessWidget {
+  final String svgUrl =
+      'https://dev.w3.org/SVG/tools/svgweb/samples/svg-files/android.svg';
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: Scaffold(
+        appBar: AppBar(title: Text('flutter_svg 예제')),
+        body: Center(
+          child: SvgPicture.network(
+            svgUrl,
+            width: 150,
+            height: 150,
+            placeholderBuilder: (context) => CircularProgressIndicator(),
+          ),
+        ),
+      ),
+    );
+  }
+}
+```
+
+---
+
+### cached\_network\_image – 이미지 캐싱
+
+pubspec.yaml
+
+```yaml
+dependencies:
+  cached_network_image: ^3.3.1
+```
+
+예제 코드
+
+```dart
+import 'package:flutter/material.dart';
+import 'package:cached_network_image/cached_network_image.dart';
+
+void main() => runApp(CachedImageDemo());
+
+class CachedImageDemo extends StatelessWidget {
+  final String imageUrl = 'https://picsum.photos/id/237/300/200';
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: Scaffold(
+        appBar: AppBar(title: Text('cached_network_image 예제')),
+        body: Center(
+          child: CachedNetworkImage(
+            imageUrl: imageUrl,
+            placeholder: (context, url) =>
+                CircularProgressIndicator(),
+            errorWidget: (context, url, error) =>
+                Icon(Icons.error, size: 48),
+            width: 300,
+            height: 200,
+            fit: BoxFit.cover,
+          ),
+        ),
+      ),
+    );
+  }
+}
+```
+
+---
+
 ## 7.9 실전 미션
 
 1. `shared_preferences` 패키지로
    “앱을 껐다 켜도 남아있는 카운터 값”을 구현해보세요.
 2. `image_picker` 패키지로
    “사진을 선택하고 화면에 보여주는 앱”을 만들어보세요.
+
+---
+
+### 1) shared_preferences
+- “앱을 껐다 켜도 남아있는 카운터 값” 구현
+
+- **핵심:** 카운터 값을 저장하고, 앱 실행 시 다시 불러옴
+
+```dart
+import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+void main() => runApp(CounterApp());
+
+class CounterApp extends StatefulWidget {
+  @override
+  State<CounterApp> createState() => _CounterAppState();
+}
+
+class _CounterAppState extends State<CounterApp> {
+  int _counter = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadCounter();
+  }
+
+  // 카운터 값을 불러옴
+  Future<void> _loadCounter() async {
+    final prefs = await SharedPreferences.getInstance();
+    setState(() {
+      _counter = prefs.getInt('counter') ?? 0;
+    });
+  }
+
+  // 카운터 값을 저장
+  Future<void> _incrementCounter() async {
+    final prefs = await SharedPreferences.getInstance();
+    setState(() {
+      _counter++;
+      prefs.setInt('counter', _counter);
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: Scaffold(
+        appBar: AppBar(title: Text('저장되는 카운터')),
+        body: Center(
+          child: Text('$_counter', style: TextStyle(fontSize: 40)),
+        ),
+        floatingActionButton: FloatingActionButton(
+          onPressed: _incrementCounter,
+          child: Icon(Icons.add),
+        ),
+      ),
+    );
+  }
+}
+````
+
+* **설명**
+
+  * 앱을 껐다 켜도 마지막 카운트 값이 그대로 유지됩니다.
+  * `prefs.setInt()`로 저장, `prefs.getInt()`로 불러옴
+
+---
+
+### 2) image\_picker
+* “사진을 선택하고 화면에 보여주는 앱” 구현
+
+* **핵심:** 갤러리에서 이미지를 선택하고 화면에 즉시 출력
+
+```dart
+import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
+import 'dart:io';
+
+void main() => runApp(PhotoApp());
+
+class PhotoApp extends StatefulWidget {
+  @override
+  State<PhotoApp> createState() => _PhotoAppState();
+}
+
+class _PhotoAppState extends State<PhotoApp> {
+  File? _image;
+
+  Future<void> _pickImage() async {
+    final picker = ImagePicker();
+    final picked = await picker.pickImage(source: ImageSource.gallery);
+    if (picked != null) {
+      setState(() => _image = File(picked.path));
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: Scaffold(
+        appBar: AppBar(title: Text('사진 선택 & 미리보기')),
+        body: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              _image != null
+                  ? Image.file(_image!, width: 200, height: 200, fit: BoxFit.cover)
+                  : Text('사진이 없습니다'),
+              SizedBox(height: 16),
+              ElevatedButton(
+                onPressed: _pickImage,
+                child: Text('갤러리에서 사진 선택'),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+```
+
+* **설명**
+
+  * 버튼을 누르면 갤러리가 열리고, 선택한 사진이 앱에 바로 표시됩니다.
+  * iOS/Android 권한 설정 필요(실제 기기에서 테스트 권장)
 
 ---
 
