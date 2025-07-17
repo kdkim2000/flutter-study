@@ -4,6 +4,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 void main() => runApp(CounterApp());
 
 class CounterApp extends StatefulWidget {
+  const CounterApp({super.key});
+
   @override
   State<CounterApp> createState() => _CounterAppState();
 }
@@ -39,9 +41,7 @@ class _CounterAppState extends State<CounterApp> {
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(title: Text('저장되는 카운터')),
-        body: Center(
-          child: Text('$_counter', style: TextStyle(fontSize: 40)),
-        ),
+        body: Center(child: Text('$_counter', style: TextStyle(fontSize: 40))),
         floatingActionButton: FloatingActionButton(
           onPressed: _incrementCounter,
           child: Icon(Icons.add),

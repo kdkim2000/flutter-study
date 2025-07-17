@@ -4,6 +4,8 @@ import 'package:intl/intl.dart';
 void main() => runApp(DateFormatApp());
 
 class DateFormatApp extends StatelessWidget {
+  const DateFormatApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     DateTime now = DateTime.now();

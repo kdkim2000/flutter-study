@@ -6,6 +6,8 @@ void main() => runApp(CachedImageDemo());
 class CachedImageDemo extends StatelessWidget {
   final String imageUrl = 'https://picsum.photos/id/237/300/200';
 
+  const CachedImageDemo({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -14,10 +16,8 @@ class CachedImageDemo extends StatelessWidget {
         body: Center(
           child: CachedNetworkImage(
             imageUrl: imageUrl,
-            placeholder: (context, url) =>
-                CircularProgressIndicator(),
-            errorWidget: (context, url, error) =>
-                Icon(Icons.error, size: 48),
+            placeholder: (context, url) => CircularProgressIndicator(),
+            errorWidget: (context, url, error) => Icon(Icons.error, size: 48),
             width: 300,
             height: 200,
             fit: BoxFit.cover,

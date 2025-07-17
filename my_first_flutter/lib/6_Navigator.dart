@@ -6,14 +6,13 @@ class MyRoutingApp extends StatelessWidget {
   const MyRoutingApp({super.key});
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: '라우팅 기본',
-      home: FirstPage(),
-    );
+    return MaterialApp(title: '라우팅 기본', home: FirstPage());
   }
 }
 
 class FirstPage extends StatelessWidget {
+  const FirstPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -34,6 +33,8 @@ class FirstPage extends StatelessWidget {
 }
 
 class SecondPage extends StatelessWidget {
+  const SecondPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

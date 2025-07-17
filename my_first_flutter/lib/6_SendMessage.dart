@@ -3,16 +3,18 @@ import 'package:flutter/material.dart';
 void main() => runApp(MyArgApp());
 
 class MyArgApp extends StatelessWidget {
+  const MyArgApp({super.key});
+
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: SendPage(),
-    );
+    return MaterialApp(home: SendPage());
   }
 }
 
 class SendPage extends StatelessWidget {
   final TextEditingController controller = TextEditingController();
+
+  SendPage({super.key});
 
   @override
   Widget build(BuildContext context) {

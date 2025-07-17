@@ -3,16 +3,18 @@ import 'package:flutter/material.dart';
 void main() => runApp(TodoApp());
 
 class TodoApp extends StatelessWidget {
+  const TodoApp({super.key});
+
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: TodoListScreen(),
-    );
+    return MaterialApp(home: TodoListScreen());
   }
 }
 
 class TodoListScreen extends StatelessWidget {
   final List<String> todos = ['책 읽기', '운동하기', '코드 작성하기'];
+
+  TodoListScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -46,10 +48,7 @@ class TodoDetailScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(title: Text('할 일 상세')),
       body: Center(
-        child: Text(
-          '선택한 할 일: $todo',
-          style: TextStyle(fontSize: 28),
-        ),
+        child: Text('선택한 할 일: $todo', style: TextStyle(fontSize: 28)),
       ),
     );
   }

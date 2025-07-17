@@ -7,6 +7,8 @@ class SvgDemo extends StatelessWidget {
   final String svgUrl =
       'https://dev.w3.org/SVG/tools/svgweb/samples/svg-files/android.svg';
 
+  const SvgDemo({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(

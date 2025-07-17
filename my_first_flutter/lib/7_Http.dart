@@ -5,6 +5,8 @@ import 'dart:convert';
 void main() => runApp(HttpDemo());
 
 class HttpDemo extends StatefulWidget {
+  const HttpDemo({super.key});
+
   @override
   State<HttpDemo> createState() => _HttpDemoState();
 }

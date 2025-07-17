@@ -4,6 +4,8 @@ import 'package:dio/dio.dart';
 void main() => runApp(DioDemo());
 
 class DioDemo extends StatefulWidget {
+  const DioDemo({super.key});
+
   @override
   State<DioDemo> createState() => _DioDemoState();
 }

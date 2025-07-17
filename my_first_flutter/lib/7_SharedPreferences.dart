@@ -4,6 +4,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 void main() => runApp(PrefsDemo());
 
 class PrefsDemo extends StatefulWidget {
+  const PrefsDemo({super.key});
+
   @override
   State<PrefsDemo> createState() => _PrefsDemoState();
 }

@@ -1,50 +1,40 @@
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
-void main() => runApp(CounterApp());
-
-class CounterApp extends StatefulWidget {
-  @override
-  State<CounterApp> createState() => _CounterAppState();
+void main() {
+  runApp(const MyApp());
+  runApp(const MyInfoApp());
 }
 
-class _CounterAppState extends State<CounterApp> {
-  int _counter = 0;
-
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
   @override
-  void initState() {
-    super.initState();
-    _loadCounter();
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Hello Flutter',
+      home: Scaffold(
+        appBar: AppBar(title: Text('Flutter 첫 앱')),
+        body: Center(child: Text('Hello Flutter!')),
+      ),
+    );
   }
+}
 
-  // 카운터 값을 불러옴
-  Future<void> _loadCounter() async {
-    final prefs = await SharedPreferences.getInstance();
-    setState(() {
-      _counter = prefs.getInt('counter') ?? 0;
-    });
-  }
-
-  // 카운터 값을 저장
-  Future<void> _incrementCounter() async {
-    final prefs = await SharedPreferences.getInstance();
-    setState(() {
-      _counter++;
-      prefs.setInt('counter', _counter);
-    });
-  }
-
+class MyInfoApp extends StatelessWidget {
+  const MyInfoApp({super.key});
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
-        appBar: AppBar(title: Text('저장되는 카운터')),
+        appBar: AppBar(title: Text('내 정보')),
         body: Center(
-          child: Text('$_counter', style: TextStyle(fontSize: 40)),
-        ),
-        floatingActionButton: FloatingActionButton(
-          onPressed: _incrementCounter,
-          child: Icon(Icons.add),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text('이름: 홍길동', style: TextStyle(fontSize: 24)),
+              SizedBox(height: 12),
+              Text('Flutter 공부 시작!', style: TextStyle(fontSize: 18)),
+            ],
+          ),
         ),
       ),
     );

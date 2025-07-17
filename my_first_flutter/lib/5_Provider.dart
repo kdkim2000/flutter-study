@@ -13,23 +13,22 @@ class CounterModel extends ChangeNotifier {
 
 void main() {
   runApp(
-    ChangeNotifierProvider(
-      create: (context) => CounterModel(),
-      child: MyApp(),
-    ),
+    ChangeNotifierProvider(create: (context) => CounterModel(), child: MyApp()),
   );
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: CounterScreen(),
-    );
+    return MaterialApp(home: CounterScreen());
   }
 }
 
 class CounterScreen extends StatelessWidget {
+  const CounterScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     final counter = Provider.of<CounterModel>(context);
@@ -40,10 +39,7 @@ class CounterScreen extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text('${counter.count}', style: TextStyle(fontSize: 40)),
-            ElevatedButton(
-              onPressed: counter.increase,
-              child: Text('증가'),
-            ),
+            ElevatedButton(onPressed: counter.increase, child: Text('증가')),
           ],
         ),
       ),

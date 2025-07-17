@@ -5,6 +5,8 @@ import 'dart:io';
 void main() => runApp(ImagePickerDemo());
 
 class ImagePickerDemo extends StatefulWidget {
+  const ImagePickerDemo({super.key});
+
   @override
   State<ImagePickerDemo> createState() => _ImagePickerDemoState();
 }
@@ -33,10 +35,7 @@ class _ImagePickerDemoState extends State<ImagePickerDemo> {
                   ? Image.file(_image!, width: 200, height: 200)
                   : Text('이미지가 없습니다'),
               SizedBox(height: 20),
-              ElevatedButton(
-                onPressed: _pickImage,
-                child: Text('갤러리에서 사진 선택'),
-              ),
+              ElevatedButton(onPressed: _pickImage, child: Text('갤러리에서 사진 선택')),
             ],
           ),
         ),

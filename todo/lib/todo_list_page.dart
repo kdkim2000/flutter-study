@@ -4,8 +4,9 @@ import 'todo_item.dart';
 import 'add_todo_dialog.dart';
 
 class TodoListPage extends StatelessWidget {
-  final CollectionReference todosRef =
-  FirebaseFirestore.instance.collection('todos');
+  final CollectionReference todosRef = FirebaseFirestore.instance.collection(
+    'todos',
+  );
 
   TodoListPage({super.key});
 
@@ -14,8 +15,16 @@ class TodoListPage extends StatelessWidget {
     return todosRef
         .orderBy('createdAt', descending: true)
         .snapshots()
-        .map((snapshot) =>
-        snapshot.docs.map((doc) => TodoItem.fromMap(doc.id, doc.data() as Map<String, dynamic>)).toList());
+        .map(
+          (snapshot) => snapshot.docs
+              .map(
+                (doc) => TodoItem.fromMap(
+                  doc.id,
+                  doc.data() as Map<String, dynamic>,
+                ),
+              )
+              .toList(),
+        );
   }
 
   Future<void> addTodo(String title) async {
@@ -55,16 +64,18 @@ class TodoListPage extends StatelessWidget {
             icon: Icon(Icons.refresh),
             onPressed: () {},
             tooltip: '새로고침 (자동 갱신됨)',
-          )
+          ),
         ],
       ),
       body: StreamBuilder<List<TodoItem>>(
         stream: getTodos(),
         builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting)
+          if (snapshot.connectionState == ConnectionState.waiting) {
             return Center(child: CircularProgressIndicator());
-          if (!snapshot.hasData || snapshot.data!.isEmpty)
+          }
+          if (!snapshot.hasData || snapshot.data!.isEmpty) {
             return Center(child: Text('할 일이 없습니다. 추가해보세요!'));
+          }
 
           final todos = snapshot.data!;
           return ListView.builder(
@@ -107,8 +118,8 @@ class TodoListPage extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () => showAddTodoDialog(context),
-        child: Icon(Icons.add),
         tooltip: '할 일 추가',
+        child: Icon(Icons.add),
       ),
     );
   }
