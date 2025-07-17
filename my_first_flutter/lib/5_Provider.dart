@@ -31,15 +31,21 @@ class CounterScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final counter = Provider.of<CounterModel>(context);
     return Scaffold(
       appBar: AppBar(title: Text('Provider 카운터')),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text('${counter.count}', style: TextStyle(fontSize: 40)),
-            ElevatedButton(onPressed: counter.increase, child: Text('증가')),
+            Consumer<CounterModel>(
+              builder: (context, counter, child) {
+                return Text('${counter.count}', style: TextStyle(fontSize: 40));
+              },
+            ),
+            ElevatedButton(
+              onPressed: Provider.of<CounterModel>(context, listen: false).increase,
+              child: Text('증가'),
+            ),
           ],
         ),
       ),
