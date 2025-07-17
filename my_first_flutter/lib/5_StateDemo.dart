@@ -30,6 +30,12 @@ class _MyCounterState extends State<MyCounter> {
     });
   }
 
+  void _decrease() {
+    setState(() {
+      _count--;
+    });
+  }
+
   void _reset() {
     setState(() {
       _count = 0;
@@ -43,8 +49,16 @@ class _MyCounterState extends State<MyCounter> {
       children: [
         Text('$_count', style: TextStyle(fontSize: 40)),
         SizedBox(height: 20),
-        ElevatedButton(onPressed: _increase, child: Text('증가')),
-        ElevatedButton(onPressed: _reset, child: Text('초기화')),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            ElevatedButton(onPressed: _increase, child: Text('증가')),
+            SizedBox(width: 10),
+            ElevatedButton(onPressed: _decrease, child: Text('감소')),
+            SizedBox(width: 10),
+            ElevatedButton(onPressed: _reset, child: Text('초기화')),
+          ],
+        ),
       ],
     );
   }

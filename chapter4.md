@@ -329,6 +329,35 @@ class ResponsiveHomePage extends StatelessWidget {
   }
 }
 ```
+### 질문
+> 보통 Column 은 가로 이고 Row 가 세로로 배치를 의미할 것 같은데 flutter 에서는 왜 반대일까? 이유를 설명해 줘.
+
+Flutter에서 `Column`과 `Row`의 동작 방식은 **축(Axis)** 개념에 기반합니다. 이 개념은 Flutter의 레이아웃 시스템에서 매우 중요한 역할을 합니다.
+
+#### 이유: Flutter의 축(Axis) 개념
+- **`Column`**: **수직 축(Axis.vertical)** 을 기준으로 위에서 아래로 위젯을 배치합니다.
+  - 이름 그대로 "열(Column)"처럼 동작합니다.
+  - 따라서, 위젯들이 **세로 방향**으로 정렬됩니다.
+
+- **`Row`**: **수평 축(Axis.horizontal)** 을 기준으로 왼쪽에서 오른쪽으로 위젯을 배치합니다.
+  - 이름 그대로 "행(Row)"처럼 동작합니다.
+  - 따라서, 위젯들이 **가로 방향** 으로 정렬됩니다.
+
+#### 왜 이런 방식인가?
+1. **직관적인 이름**:
+   - `Column`은 "열"을 의미하며, 열은 일반적으로 세로로 정렬된 데이터를 나타냅니다.
+   - `Row`는 "행"을 의미하며, 행은 일반적으로 가로로 정렬된 데이터를 나타냅니다.
+
+2. **Flexbox 모델에서 영감**:
+   - Flutter는 웹의 Flexbox 레이아웃 모델에서 영감을 받았습니다.
+   - Flexbox에서도 `flex-direction: column`은 세로 정렬, `flex-direction: row`는 가로 정렬을 의미합니다.
+
+3. **개발자 경험**:
+   - Flutter는 UI를 설계할 때 직관적이고 예측 가능한 동작을 제공하려고 합니다.
+   - "열(Column)"과 "행(Row)"의 개념은 대부분의 개발자에게 익숙합니다.
+
+#### 결론
+Flutter에서 `Column`은 세로 정렬, `Row`는 가로 정렬을 의미하며, 이는 이름과 축(Axis)의 개념에 기반한 직관적인 설계입니다. 이 방식은 UI를 설계할 때 더 쉽게 이해하고 사용할 수 있도록 설계되었습니다.
 
 ---
 
@@ -339,6 +368,86 @@ class ResponsiveHomePage extends StatelessWidget {
 2. 각 구역에 다른 색상과 아이콘, 텍스트를 배치해보세요.
 3. 직접 크기, 정렬, 여백 등을 조정해보세요.
 
+- Example
+
+```dart
+import 'package:flutter/material.dart';
+
+void main() => runApp(ExampleApp());
+
+class ExampleApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: ExampleScreen(),
+    );
+  }
+}
+
+class ExampleScreen extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('4장 예제'),
+      ),
+      body: Column(
+        children: [
+          // Header Section
+          Container(
+            color: Colors.blue,
+            height: 100,
+            child: Center(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(Icons.star, color: Colors.white),
+                  SizedBox(width: 10),
+                  Text(
+                    '헤더',
+                    style: TextStyle(color: Colors.white, fontSize: 24),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          // Body Section
+          Expanded(
+            child: Container(
+              color: Colors.green,
+              child: Center(
+                child: Text(
+                  '본문',
+                  style: TextStyle(color: Colors.white, fontSize: 24),
+                ),
+              ),
+            ),
+          ),
+          // Footer Section
+          Container(
+            color: Colors.red,
+            height: 100,
+            child: Center(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(Icons.home, color: Colors.white),
+                  SizedBox(width: 10),
+                  Text(
+                    '푸터',
+                    style: TextStyle(color: Colors.white, fontSize: 24),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+```
 ---
 
 ## 4장 마무리
