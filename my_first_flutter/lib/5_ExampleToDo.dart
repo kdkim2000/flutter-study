@@ -14,6 +14,8 @@ class Todo {
 }
 
 class TodoListApp extends StatefulWidget {
+  const TodoListApp({super.key});
+
   @override
   State<TodoListApp> createState() => _TodoListAppState();
 }

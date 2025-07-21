@@ -4,8 +4,6 @@ import 'package:url_launcher/url_launcher.dart';
 void main() => runApp(UrlLauncherDemo());
 
 class UrlLauncherDemo extends StatelessWidget {
-  const UrlLauncherDemo({super.key});
-
   void _launchUrl(String url) async {
     final uri = Uri.parse(url);
     if (await canLaunchUrl(uri)) {

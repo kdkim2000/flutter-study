@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 void main() => runApp(ExampleApp());
 
 class ExampleApp extends StatelessWidget {
+  const ExampleApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -12,6 +14,8 @@ class ExampleApp extends StatelessWidget {
 }
 
 class ExampleScreen extends StatelessWidget {
+  const ExampleScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
