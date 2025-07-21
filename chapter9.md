@@ -30,6 +30,12 @@ add_todo_dialog.dart  # 할 일 추가 다이얼로그
 - Firestore 컬렉션: `todos`
   - 각 문서: {title, completed, createdAt}
 
+> ❗ `lib/firebase_options.dart`는 `flutterfire configure` 명령으로 직접 생성해야 합니다.
+>
+> ```
+> dart pub global activate flutterfire_cli
+> flutterfire configure
+> ```
 ---
 
 ## 9.3 파일별 상세 설명 및 코드
