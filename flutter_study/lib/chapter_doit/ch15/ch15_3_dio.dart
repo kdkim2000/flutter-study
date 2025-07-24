@@ -15,13 +15,13 @@ class MyApp extends StatefulWidget {
 }
 
 class MyAppState extends State<MyApp> {
-  String result = '';
+  List<String> result = [];
 
   dioTest() async {
     try {
       var dio = Dio(
         BaseOptions(
-          baseUrl: "https://reqres.in/api/",
+          baseUrl: "https://jsonplaceholder.typicode.com/",
           connectTimeout: const Duration(milliseconds: 5000),
           receiveTimeout: const Duration(milliseconds: 5000),
           headers: {
@@ -31,13 +31,14 @@ class MyAppState extends State<MyApp> {
         ),
       );
       List<Response<dynamic>> respone = await Future.wait([
-        dio.get('https://reqres.in/api/users?page=1'),
-        dio.get('https://reqres.in/api/users?page=2'),
+        dio.get('https://jsonplaceholder.typicode.com/posts/1'),
+        dio.get('https://jsonplaceholder.typicode.com/posts/2'),
+        dio.get('https://jsonplaceholder.typicode.com/posts/3'),
       ]);
       respone.forEach((element) {
         if (element.statusCode == 200) {
           setState(() {
-            result = element.data.toString();
+            result.add(element.data.toString());
           });
         }
       });
@@ -55,11 +56,20 @@ class MyAppState extends State<MyApp> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text('$result'),
+              Expanded(
+                child: ListView.builder(
+                  itemCount: result.length,
+                  itemBuilder: (context, index) {
+                    return ListTile(title: Text(result[index]));
+                  },
+                ),
+              ),
+              SizedBox(height: 20),
               ElevatedButton(
                 onPressed: dioTest,
                 child: Text('Get Server Data'),
               ),
+              SizedBox(height: 20),
             ],
           ),
         ),
