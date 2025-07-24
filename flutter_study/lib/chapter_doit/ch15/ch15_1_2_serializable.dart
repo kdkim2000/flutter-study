@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:json_annotation/json_annotation.dart';
 
-part 'test.g.dart';
+part '../test.g.dart';
 
 void main() {
   runApp(MyApp());
