@@ -45,7 +45,6 @@ Future<void> showNotification({
 }
 
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
-  RemoteNotification? notification = message.notification;
   Map<String, dynamic> data = message.data;
   await cancelNotification();
   await requestPermissions();
@@ -90,7 +89,6 @@ class _MyHomePageState extends State<MyHomePage>{
     super.initState();
     FirebaseMessaging.onMessage.listen((RemoteMessage message) async {
       print('listen...${message.data}');
-      RemoteNotification? notification = message.notification;
       Map<String, dynamic> data = message.data;
 
       await cancelNotification();

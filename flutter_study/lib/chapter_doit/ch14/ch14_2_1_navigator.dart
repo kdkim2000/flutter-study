@@ -4,8 +4,11 @@ void main() {
   runApp(MyApp());
 }
 
+// ignore: must_be_immutable
 class MyApp extends StatelessWidget {
   bool _isDeepLink = true;
+
+  MyApp({super.key});
   @override
   Widget build(BuildContext context) {
     return MaterialApp(

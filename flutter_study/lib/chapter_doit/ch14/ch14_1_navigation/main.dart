@@ -31,6 +31,7 @@ class MyApp extends StatelessWidget {
             settings: settings,
           );
         }
+        return null;
       },
     );
   }

@@ -28,7 +28,7 @@ class MyRoutePath {
 class MyRouteInformationParser extends RouteInformationParser<MyRoutePath> {
   @override
   Future<MyRoutePath> parseRouteInformation(RouteInformation routeInformation) async{
-    final uri = Uri.parse(routeInformation.location ?? '/');
+    final uri = Uri.parse(routeInformation.location);
     if(uri.pathSegments.length >= 2){
       var remaining = uri.pathSegments[1];
       return MyRoutePath.detail(remaining);
@@ -123,6 +123,7 @@ class HomeScreen extends StatelessWidget {
 }
 
 
+// ignore: must_be_immutable
 class DetailScreen extends StatelessWidget {
   String? id;
   DetailScreen(this.id);

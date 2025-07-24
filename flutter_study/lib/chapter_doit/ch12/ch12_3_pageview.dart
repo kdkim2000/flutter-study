@@ -4,8 +4,11 @@ void main(){
   runApp(MyApp());
 }
 
+// ignore: must_be_immutable
 class MyApp extends StatelessWidget {
   PageController controller = PageController(initialPage: 1, viewportFraction: 0.8);
+
+  MyApp({super.key});
   @override
   Widget build(BuildContext context) {
     return MaterialApp(

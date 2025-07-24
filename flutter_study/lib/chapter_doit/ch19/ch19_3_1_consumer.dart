@@ -80,6 +80,7 @@ class HomeWidget extends StatelessWidget {
   }
 }
 
+// ignore: must_be_immutable
 class SubWidget1 extends StatelessWidget {
   MyDataModel1 model1;
   MyDataModel2 model2;
