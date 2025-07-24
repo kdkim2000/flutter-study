@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'firebase_options.dart'; // flutterfire configure로 생성
+import '../firebase_options.dart'; // flutterfire configure로 생성
 import 'todo_list_page.dart';
 
 void main() async {
