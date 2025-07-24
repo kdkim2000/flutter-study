@@ -16,7 +16,8 @@ Future<void> requestPermissions() async {
     badge: true,
     sound: true,
   );
-  await notiPlugin.resolvePlatformSpecificImplementation<AndroidFlutterLocalNotificationsPlugin>()?.requestPermission();
+  
+  await notiPlugin.resolvePlatformSpecificImplementation<AndroidFlutterLocalNotificationsPlugin>()?.requestNotificationsPermission();
 
 }
 Future<void> showNotification({

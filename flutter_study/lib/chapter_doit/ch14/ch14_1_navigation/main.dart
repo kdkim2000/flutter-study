@@ -16,8 +16,8 @@ class MyApp extends StatelessWidget {
       routes: {
         '/one': (context) => OneScreen(),
         '/two': (context) => TwoScreen(),
-        // '/three': (context) => ThreeScreen(),
-        // '/four': (context) => FourScreen(),
+        '/three': (context) => ThreeScreen(),
+        '/four': (context) => FourScreen(),
       },
       onGenerateRoute: (settings){
         if(settings.name == '/three'){

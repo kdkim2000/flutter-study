@@ -168,7 +168,7 @@ class AuthWidgetState extends State<AuthWidget>{
                   textAlign: TextAlign.right,
                   text: TextSpan(
                     text: 'Go',
-                    style: Theme.of(context).textTheme.bodyText1,
+                    style: Theme.of(context).textTheme.bodyLarge,
                     children: [
                       TextSpan(
                         text: isSignIn ? "SignUp" : "SignIn",

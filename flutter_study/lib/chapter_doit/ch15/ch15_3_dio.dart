@@ -6,6 +6,7 @@ import 'package:dio/dio.dart';
 void main() {
   runApp(MyApp());
 }
+
 class MyApp extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
@@ -13,34 +14,34 @@ class MyApp extends StatefulWidget {
   }
 }
 
-class MyAppState extends State<MyApp>{
+class MyAppState extends State<MyApp> {
   String result = '';
 
   dioTest() async {
-    try{
+    try {
       var dio = Dio(
         BaseOptions(
           baseUrl: "https://reqres.in/api/",
-          connectTimeout: 5000,
-          receiveTimeout: 5000,
+          connectTimeout: const Duration(milliseconds: 5000),
+          receiveTimeout: const Duration(milliseconds: 5000),
           headers: {
             HttpHeaders.contentTypeHeader: 'application/json',
             HttpHeaders.acceptHeader: 'application/json',
-          }
-        )
+          },
+        ),
       );
       List<Response<dynamic>> respone = await Future.wait([
         dio.get('https://reqres.in/api/users?page=1'),
         dio.get('https://reqres.in/api/users?page=2'),
       ]);
       respone.forEach((element) {
-        if(element.statusCode == 200){
+        if (element.statusCode == 200) {
           setState(() {
             result = element.data.toString();
           });
         }
       });
-    }catch(e){
+    } catch (e) {
       print(e);
     }
   }
@@ -49,7 +50,7 @@ class MyAppState extends State<MyApp>{
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
-        appBar: AppBar(title: Text('Test'),),
+        appBar: AppBar(title: Text('Test')),
         body: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
