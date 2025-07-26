@@ -27,6 +27,8 @@ void main() async {
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -40,6 +42,8 @@ class MyApp extends StatelessWidget {
 }
 
 class AuthWidget extends StatefulWidget {
+  const AuthWidget({super.key});
+
   @override
   State<StatefulWidget> createState() {
     return AuthWidgetState();

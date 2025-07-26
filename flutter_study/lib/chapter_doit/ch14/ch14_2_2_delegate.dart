@@ -4,6 +4,8 @@ void main() {
   runApp(MainApp());
 }
 class MainApp extends StatefulWidget {
+  const MainApp({super.key});
+
   @override
   State<StatefulWidget> createState() {
     return _MainAppState();
@@ -21,7 +23,7 @@ class _MainAppState extends State<MainApp> {
 
 class MyRoutePath {
   String? id;
-  MyRoutePath.home() : this.id = null;
+  MyRoutePath.home() : id = null;
   MyRoutePath.detail(this.id);
 }
 
@@ -48,6 +50,7 @@ class MyRouteInformationParser extends RouteInformationParser<MyRoutePath> {
 
 class MyRouterDelegate extends RouterDelegate<MyRoutePath> with ChangeNotifier, PopNavigatorRouterDelegateMixin<MyRoutePath>{
   String? selectId;
+  @override
   final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
   @override
@@ -91,7 +94,7 @@ class MyRouterDelegate extends RouterDelegate<MyRoutePath> with ChangeNotifier, 
 
 class HomeScreen extends StatelessWidget {
   final ValueChanged<String> onPressed;
-  HomeScreen(this.onPressed);
+  const HomeScreen(this.onPressed, {super.key});
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -126,7 +129,7 @@ class HomeScreen extends StatelessWidget {
 // ignore: must_be_immutable
 class DetailScreen extends StatelessWidget {
   String? id;
-  DetailScreen(this.id);
+  DetailScreen(this.id, {super.key});
   @override
   Widget build(BuildContext context) {
     return Scaffold(

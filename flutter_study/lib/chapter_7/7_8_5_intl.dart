@@ -9,6 +9,8 @@ void main() async {
 }
 
 class IntlDemo extends StatelessWidget {
+  const IntlDemo({super.key});
+
   @override
   Widget build(BuildContext context) {
     final now = DateTime.now();

@@ -5,6 +5,8 @@ void main() {
   runApp(MyApp());
 }
 class MyApp extends StatefulWidget {
+  const MyApp({super.key});
+
   @override
   State<StatefulWidget> createState() {
     return MyAppState();
@@ -79,7 +81,7 @@ class MyAppState extends State<MyApp>{
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text('$result'),
+              Text(result),
               ElevatedButton(
                   onPressed: onPressGet,
                   child: Text('GET'),

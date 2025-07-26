@@ -6,10 +6,10 @@ abstract class CounterEvent {
   CounterEvent(this.no);
 }
 class IncrementEvent extends CounterEvent {
-  IncrementEvent(int no): super(no);
+  IncrementEvent(super.no);
 }
 class DecrementEvent extends CounterEvent {
-  DecrementEvent(int no): super(no);
+  DecrementEvent(super.no);
 }
 
 class BlocCounter extends Bloc<CounterEvent, int>{
@@ -40,6 +40,8 @@ class BlocCounter extends Bloc<CounterEvent, int>{
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -54,6 +56,8 @@ class MyApp extends StatelessWidget {
   }
 }
 class MyWidget extends StatelessWidget {
+  const MyWidget({super.key});
+
   @override
   Widget build(BuildContext context) {
     final BlocCounter counterBloc = BlocProvider.of<BlocCounter>(context);

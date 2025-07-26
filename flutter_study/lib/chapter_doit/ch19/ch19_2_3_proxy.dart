@@ -15,7 +15,7 @@ class Counter with ChangeNotifier {
 class Sum {
   int _sum = 0;
   int get sum => _sum;
-  void set sum(value) {
+  set sum(value) {
     _sum =0;
     for(int i=1; i<=value; i++){
       _sum += i;
@@ -29,6 +29,8 @@ class Sum {
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -60,11 +62,13 @@ class MyApp extends StatelessWidget {
   }
 }
 class SubWidget extends StatelessWidget {
+  const SubWidget({super.key});
+
   @override
   Widget build(BuildContext context) {
     var counter = Provider.of<Counter>(context);
     var sum = Provider.of<Sum>(context);
-    var string_data = Provider.of<String>(context);
+    var stringData = Provider.of<String>(context);
     return Container(
       color: Colors.orange,
       child: Center(
@@ -80,7 +84,7 @@ class SubWidget extends StatelessWidget {
               style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white),
             ),
             Text(
-              'string : $string_data',
+              'string : $stringData',
               style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white),
             ),
             ElevatedButton(onPressed: () { counter.increment(); }, child: Text('increment'))

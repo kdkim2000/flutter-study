@@ -11,6 +11,8 @@ Stream<int> streamFun() async* {
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -35,6 +37,8 @@ class MyApp extends StatelessWidget {
   }
 }
 class SubWidget extends StatelessWidget {
+  const SubWidget({super.key});
+
   @override
   Widget build(BuildContext context) {
     var futureState = Provider.of<String>(context);
@@ -46,11 +50,11 @@ class SubWidget extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
-              'future : ${futureState}',
+              'future : $futureState',
               style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white),
             ),
             Text(
-              'stream : ${streamState}',
+              'stream : $streamState',
               style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white),
             ),
           ],

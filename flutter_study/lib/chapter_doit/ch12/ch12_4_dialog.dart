@@ -6,6 +6,8 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -20,6 +22,8 @@ class MyApp extends StatelessWidget {
 }
 
 class TestScreen extends StatefulWidget {
+  const TestScreen({super.key});
+
   @override
   State<StatefulWidget> createState() {
     return TextState();
@@ -126,18 +130,22 @@ class TextState extends State<TestScreen>{
         firstDate: DateTime(2016),
         lastDate: DateTime(2030),
     );
-    if(picked != null) setState(() {
+    if(picked != null) {
+      setState(() {
       dateValue = picked;
     });
+    }
   }
   Future timePicker() async {
     TimeOfDay? selectedTime = await showTimePicker(
         context: context,
         initialTime: TimeOfDay.now(),
     );
-    if(selectedTime != null) setState(() {
+    if(selectedTime != null) {
+      setState(() {
       timeValue = selectedTime;
     });
+    }
   }
 
   @override

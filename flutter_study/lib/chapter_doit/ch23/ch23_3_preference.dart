@@ -4,6 +4,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -15,6 +17,8 @@ class MyApp extends StatelessWidget {
   }
 }
 class NativePluginWidget extends StatefulWidget {
+  const NativePluginWidget({super.key});
+
   @override
   State<StatefulWidget> createState() {
     return NativePluginWidgetState();

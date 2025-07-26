@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -17,7 +19,7 @@ class MyApp extends StatelessWidget {
 // ignore: must_be_immutable
 class MyInheritedWidget extends InheritedWidget {
   int count = 0;
-  MyInheritedWidget(child): super(child: child);
+  MyInheritedWidget(child, {super.key}): super(child: child);
 
   increment() {
     count++;
@@ -30,6 +32,8 @@ class MyInheritedWidget extends InheritedWidget {
 }
 
 class TestSubWidget extends StatelessWidget {
+  const TestSubWidget({super.key});
+
   @override
   Widget build(BuildContext context) {
     int count = MyInheritedWidget.of(context)!.count;
@@ -52,7 +56,7 @@ class TestSubWidget extends StatelessWidget {
 }
 
 class TestWidget extends StatelessWidget {
-  TestWidget() {
+  TestWidget({super.key}) {
     print('TestWidget constructor...');
   }
   @override

@@ -5,6 +5,8 @@ void main() {
 }
 
 class ParentWidget extends StatefulWidget {
+  const ParentWidget({super.key});
+
   @override
   State<StatefulWidget> createState() {
     return ParentWidgetState();
@@ -48,7 +50,7 @@ class IconWidget extends StatelessWidget {
   final bool favorited;
   final Function onChanged;
 
-  IconWidget({this.favorited= false, required this.onChanged});
+  const IconWidget({super.key, this.favorited= false, required this.onChanged});
 
   void _handleTap() {
     onChanged();
@@ -68,7 +70,7 @@ class IconWidget extends StatelessWidget {
 
 class ContentWidget extends StatelessWidget {
   final int favoriteCount;
-  ContentWidget({required this.favoriteCount});
+  const ContentWidget({super.key, required this.favoriteCount});
   @override
   Widget build(BuildContext context) {
     return Row(

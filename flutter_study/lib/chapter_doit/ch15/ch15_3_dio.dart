@@ -8,6 +8,8 @@ void main() {
 }
 
 class MyApp extends StatefulWidget {
+  const MyApp({super.key});
+
   @override
   State<StatefulWidget> createState() {
     return MyAppState();
@@ -35,13 +37,13 @@ class MyAppState extends State<MyApp> {
         dio.get('https://jsonplaceholder.typicode.com/posts/2'),
         dio.get('https://jsonplaceholder.typicode.com/posts/3'),
       ]);
-      respone.forEach((element) {
+      for (var element in respone) {
         if (element.statusCode == 200) {
           setState(() {
             result.add(element.data.toString());
           });
         }
-      });
+      }
     } catch (e) {
       print(e);
     }

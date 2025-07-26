@@ -5,14 +5,6 @@ import 'package:get/get_state_manager/get_state_manager.dart';
 class CounterController extends GetxController {
   int count = 0;
 
-  @override
-  void onInit() {
-    super.onInit();
-  }
-  @override
-  void onClose() {
-    super.onClose();
-  }
   void increment(){
     count++;
     update();
@@ -28,6 +20,8 @@ main(){
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -44,6 +38,8 @@ class MyApp extends StatelessWidget {
   }
 }
 class MyWidget extends StatelessWidget {
+  const MyWidget({super.key});
+
   @override
   Widget build(BuildContext context) {
     return GetBuilder<CounterController>(

@@ -5,6 +5,8 @@ import 'dart:typed_data'; // File 대신
 void main() => runApp(PhotoApp());
 
 class PhotoApp extends StatefulWidget {
+  const PhotoApp({super.key});
+
   @override
   State<PhotoApp> createState() => _PhotoAppState();
 }

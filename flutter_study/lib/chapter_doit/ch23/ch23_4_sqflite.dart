@@ -4,6 +4,8 @@ import 'package:sqflite/sqflite.dart';
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -37,6 +39,8 @@ class User {
 }
 
 class NativePluginWidget extends StatefulWidget {
+  const NativePluginWidget({super.key});
+
   @override
   State<StatefulWidget> createState() {
     return NativePluginWidgetState();
@@ -88,15 +92,15 @@ class NativePluginWidgetState extends State<NativePluginWidget>{
       columns: ['id', 'name', 'address'],
     );
     List<User> users = List.empty(growable: true);
-    maps.forEach((element){
+    for (var element in maps) {
       users.add(User.fromMap(element as Map<String, Object?>));
-    });
-    if(maps.length >0){
+    }
+    if(maps.isNotEmpty){
       print('select: ${maps.first}');
     }
-    users.forEach((user) {
+    for (var user in users) {
       print('${user.name}');
-    });
+    }
   }
 
   @override

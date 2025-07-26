@@ -3,13 +3,16 @@ import 'package:flutter/material.dart';
 void main() => runApp(MyApp());
 
 class MyApp extends StatefulWidget {
+  const MyApp({super.key});
+
+  @override
   MyAppState createState() => MyAppState();
 }
 
 class MyAppState extends State<MyApp> {
   int _selectedIndex = 0;
 
-  List<Widget> _widgetOptions = [
+  final List<Widget> _widgetOptions = [
     Text(
       'First Screen',
       style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
@@ -107,8 +110,8 @@ class MyAppState extends State<MyApp> {
             padding: EdgeInsets.zero,
             children: [
               DrawerHeader(
-                child: Text('Drawer Header'),
                 decoration: BoxDecoration(color: Colors.blue),
+                child: Text('Drawer Header'),
               ),
               ListTile(title: Text('Item 1'), onTap: () {}),
               ListTile(title: Text('Item 2'), onTap: () {}),

@@ -15,6 +15,8 @@ class Counter with ChangeNotifier {
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -29,6 +31,8 @@ class MyApp extends StatelessWidget {
   }
 }
 class SubWidget extends StatelessWidget {
+  const SubWidget({super.key});
+
   @override
   Widget build(BuildContext context) {
     var counter = Provider.of<Counter>(context);

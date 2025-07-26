@@ -50,6 +50,8 @@ void main() async {
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -63,6 +65,8 @@ class MyApp extends StatelessWidget {
 }
 
 class ListScreen extends StatefulWidget {
+  const ListScreen({super.key});
+
   @override
   State<StatefulWidget> createState() {
     return ListScreenState();
@@ -129,6 +133,8 @@ class ListScreenState extends State<ListScreen>{
 }
 
 class InputScreen extends StatefulWidget {
+  const InputScreen({super.key});
+
   @override
   State<StatefulWidget> createState() {
     return InputScreenState();
@@ -201,13 +207,13 @@ class InputScreenState extends State<InputScreen>{
       body: Column(
         children: [
           Visibility(
+              visible: isImageVisible,
               child: isImageVisible
-                  ? Container(
+                  ? SizedBox(
                       height: 200,
                       child: Image.file(File(_image!.path)),
                     )
                   : Container(),
-            visible: isImageVisible,
           ),
           Container(
             margin: const EdgeInsets.all(10),

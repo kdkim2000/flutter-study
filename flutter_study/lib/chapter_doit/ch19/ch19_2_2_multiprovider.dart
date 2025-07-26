@@ -15,6 +15,8 @@ class Counter with ChangeNotifier {
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -33,11 +35,13 @@ class MyApp extends StatelessWidget {
   }
 }
 class SubWidget extends StatelessWidget {
+  const SubWidget({super.key});
+
   @override
   Widget build(BuildContext context) {
     var counter = Provider.of<Counter>(context);
-    var int_data = Provider.of<int>(context);
-    var string_data = Provider.of<String>(context);
+    var intData = Provider.of<int>(context);
+    var stringData = Provider.of<String>(context);
     return Container(
       color: Colors.orange,
       child: Center(
@@ -49,11 +53,11 @@ class SubWidget extends StatelessWidget {
               style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white),
             ),
             Text(
-              'int data : $int_data',
+              'int data : $intData',
               style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white),
             ),
             Text(
-              'string data : $string_data',
+              'string data : $stringData',
               style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white),
             ),
             Text(

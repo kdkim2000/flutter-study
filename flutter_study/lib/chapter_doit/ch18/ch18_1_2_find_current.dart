@@ -5,6 +5,8 @@ void main() {
 }
 
 class ParentWidget extends StatefulWidget {
+  const ParentWidget({super.key});
+
   @override
   State<StatefulWidget> createState() => ParentWidgetState();
 }
@@ -78,7 +80,7 @@ class ParentWidgetState extends State<ParentWidget> {
 }
 
 class ChildWidget extends StatefulWidget {
-  ChildWidget({Key? key}) : super(key: key);
+  const ChildWidget({super.key});
 
   @override
   State<ChildWidget> createState() => ChildWidgetState();
@@ -116,6 +118,8 @@ class ChildWidgetState extends State<ChildWidget> {
 }
 
 class IconWidget extends StatelessWidget {
+  const IconWidget({super.key});
+
   @override
   Widget build(BuildContext context) {
     final state = context.findAncestorStateOfType<ParentWidgetState>();
@@ -133,6 +137,8 @@ class IconWidget extends StatelessWidget {
 }
 
 class ContentWidget extends StatelessWidget {
+  const ContentWidget({super.key});
+
   @override
   Widget build(BuildContext context) {
     final state = context.findAncestorStateOfType<ParentWidgetState>();

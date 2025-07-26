@@ -33,15 +33,13 @@ class CounterController extends GetxController {
       time:Duration(seconds: 1),
     );
   }
-  @override
-  void onClose() {
-    super.onClose();
-  }
 }
 main(){
   runApp(MyApp());
 }
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     Get.put(CounterController());
@@ -54,6 +52,8 @@ class MyApp extends StatelessWidget {
   }
 }
 class MyWidget extends StatelessWidget {
+  const MyWidget({super.key});
+
   @override
   Widget build(BuildContext context) {
     return GetX<CounterController>(
@@ -82,16 +82,18 @@ class MyWidget extends StatelessWidget {
               ElevatedButton(
                   onPressed: (){
                     controller.count.value++;
-                    if(controller.title.value == 'hello')
+                    if(controller.title.value == 'hello') {
                       controller.title.value = 'world';
-                    else
+                    } else {
                       controller.title.value = 'hello';
+                    }
                     controller.isChecked.value = !controller.isChecked.value;
 
-                    if(controller.user.value.name == 'kkang')
+                    if(controller.user.value.name == 'kkang') {
                       controller.user.value.name = 'kim';
-                    else
+                    } else {
                       controller.user.value.name = 'kkang';
+                    }
                   },
                   child: Text('change')
               ),

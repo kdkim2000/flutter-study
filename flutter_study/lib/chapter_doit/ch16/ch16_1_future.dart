@@ -6,6 +6,8 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
   Future<int> sum() {
     return Future<int>(() async {
       var sum = 0;

@@ -5,6 +5,8 @@ import 'package:flutter/services.dart';
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -17,6 +19,8 @@ class MyApp extends StatelessWidget {
   }
 }
 class NativeCallWidget extends StatefulWidget {
+  const NativeCallWidget({super.key});
+
   @override
   State<StatefulWidget> createState() {
     return NativeCallWidgetState();

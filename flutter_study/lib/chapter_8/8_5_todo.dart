@@ -4,6 +4,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 void main() => runApp(FirestoreTodoApp());
 
 class FirestoreTodoApp extends StatelessWidget {
+  const FirestoreTodoApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -13,6 +15,8 @@ class FirestoreTodoApp extends StatelessWidget {
 }
 
 class FirestoreTodoScreen extends StatefulWidget {
+  const FirestoreTodoScreen({super.key});
+
   @override
   State<FirestoreTodoScreen> createState() => _FirestoreTodoScreenState();
 }

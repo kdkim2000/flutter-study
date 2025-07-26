@@ -5,6 +5,8 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -14,7 +16,7 @@ class MyApp extends StatelessWidget {
           scrollDirection: Axis.vertical,
           child: Column(
             children: [
-              Container(
+              SizedBox(
                 height: 300,
                 child: Row(
                   children: [

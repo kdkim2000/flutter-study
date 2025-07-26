@@ -5,6 +5,8 @@ void main() {
   runApp(MyApp());
 }
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
   Future<int> funA() {
     return Future.delayed(Duration(seconds: 3), () {
       return 10;

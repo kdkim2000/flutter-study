@@ -12,10 +12,10 @@ abstract class UserEvent {
   UserEvent(this.user);
 }
 class CreateUserEvent extends UserEvent {
-  CreateUserEvent(User user): super(user);
+  CreateUserEvent(super.user);
 }
 class UpdateUserEvent extends UserEvent {
-  UpdateUserEvent(User user): super(user);
+  UpdateUserEvent(super.user);
 }
 
 class UserBloc extends Bloc<UserEvent, User?>{
@@ -35,10 +35,10 @@ abstract class CounterEvent {
   CounterEvent(this.no);
 }
 class IncrementEvent extends CounterEvent {
-  IncrementEvent(int no): super(no);
+  IncrementEvent(super.no);
 }
 class DecrementEvent extends CounterEvent {
-  DecrementEvent(int no): super(no);
+  DecrementEvent(super.no);
 }
 
 class BlocCounter extends Bloc<CounterEvent, int>{
@@ -67,6 +67,8 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -86,6 +88,8 @@ class MyApp extends StatelessWidget {
   }
 }
 class MyWidget extends StatelessWidget {
+  const MyWidget({super.key});
+
   @override
   Widget build(BuildContext context) {
     final BlocCounter counterBloc = BlocProvider.of<BlocCounter>(context);
@@ -111,7 +115,7 @@ class MyWidget extends StatelessWidget {
                     listener: (context, user){
                       ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(
-                            content: Text('${user!.name}'),
+                            content: Text(user!.name),
                             backgroundColor: Colors.blue,
                           )
                       ) ;
@@ -141,7 +145,7 @@ class MyWidget extends StatelessWidget {
                                   ),
                                 ),
                                 Text(
-                                  'Bloc : ${count}',
+                                  'Bloc : $count',
                                   style: TextStyle(
                                     fontWeight: FontWeight.bold,
                                     fontSize: 20,

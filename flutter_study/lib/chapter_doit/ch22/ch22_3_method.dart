@@ -5,6 +5,8 @@ import 'package:flutter/services.dart';
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -17,6 +19,8 @@ class MyApp extends StatelessWidget {
   }
 }
 class NativeCallWidget extends StatefulWidget {
+  const NativeCallWidget({super.key});
+
   @override
   State<StatefulWidget> createState() {
     return NativeCallWidgetState();
@@ -27,7 +31,7 @@ class NativeCallWidgetState extends State<NativeCallWidget>{
   String? receiveMessage;
 
   Future<Null> nativeCall() async {
-    const channel = const MethodChannel('myMethodChannel');
+    const channel = MethodChannel('myMethodChannel');
     try{
       var details = {'Username': 'kkang', 'Password':'1234'};
       final Map result = await channel.invokeMethod("oneMethod", details);

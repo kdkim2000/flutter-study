@@ -6,9 +6,9 @@ void main() {
 
 // ignore: must_be_immutable
 class MyApp extends StatelessWidget {
-  bool _isDeepLink = true;
+  final bool _isDeepLink = true;
 
-  MyApp({super.key});
+  const MyApp({super.key});
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -25,6 +25,8 @@ class MyApp extends StatelessWidget {
 }
 
 class OneScreen extends StatelessWidget {
+  const OneScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -44,6 +46,8 @@ class OneScreen extends StatelessWidget {
   }
 }
 class TwoScreen extends StatelessWidget {
+  const TwoScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

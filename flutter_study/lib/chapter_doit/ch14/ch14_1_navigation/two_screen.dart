@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'user.dart';
 
 class TwoScreen extends StatelessWidget {
+  const TwoScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     Map<String, Object> args = ModalRoute.of(context)?.settings.arguments as Map<String, Object>;

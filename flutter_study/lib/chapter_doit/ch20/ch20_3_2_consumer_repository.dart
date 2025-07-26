@@ -25,6 +25,8 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -43,6 +45,8 @@ class MyApp extends StatelessWidget {
 }
 
 class MyWidget extends StatelessWidget {
+  const MyWidget({super.key});
+
   @override
   Widget build(BuildContext context) {
     final BlocCounter counterBloc = BlocProvider.of<BlocCounter>(context);

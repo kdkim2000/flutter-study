@@ -23,6 +23,8 @@ class MyDataModel2 with ChangeNotifier {
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -41,6 +43,8 @@ class MyApp extends StatelessWidget {
 }
 
 class HomeWidget extends StatelessWidget {
+  const HomeWidget({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -85,7 +89,7 @@ class SubWidget1 extends StatelessWidget {
   MyDataModel1 model1;
   MyDataModel2 model2;
   Widget? child;
-  SubWidget1(this.model1, this.model2, this.child);
+  SubWidget1(this.model1, this.model2, this.child, {super.key});
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -109,6 +113,8 @@ class SubWidget1 extends StatelessWidget {
 }
 
 class SubWidget2 extends StatelessWidget {
+  const SubWidget2({super.key});
+
   @override
   Widget build(BuildContext context) {
     print('111');

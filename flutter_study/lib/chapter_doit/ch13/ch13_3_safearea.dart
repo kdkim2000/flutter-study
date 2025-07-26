@@ -5,6 +5,8 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
   List<Widget> getWidgets(){
     List<Widget> widgets = [];
     for(var i=0; i<100; i++){

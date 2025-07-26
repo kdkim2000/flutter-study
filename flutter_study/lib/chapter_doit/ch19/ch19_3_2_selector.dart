@@ -17,6 +17,8 @@ class MyDataModel with ChangeNotifier {
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -34,6 +36,8 @@ class MyApp extends StatelessWidget {
 }
 
 class HomeWidget extends StatelessWidget {
+  const HomeWidget({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -67,7 +71,7 @@ class HomeWidget extends StatelessWidget {
                     padding: EdgeInsets.all(20),
                     child: Center(
                       child: Text(
-                        'selector, data: ${data}',
+                        'selector, data: $data',
                         style: TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
