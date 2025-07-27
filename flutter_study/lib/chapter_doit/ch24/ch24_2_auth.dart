@@ -1,22 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:flutter/cupertino.dart';
-import '../../firebase_options.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
-
-showToast(String msg){
-  Fluttertoast.showToast(
-      msg: msg,
-      toastLength: Toast.LENGTH_SHORT,
-      gravity: ToastGravity.CENTER,
-      timeInSecForIosWeb: 1,
-      backgroundColor: Colors.red,
-      textColor: Colors.white,
-      fontSize: 16.0,
-  );
-}
+import '../../firebase_options.dart'; // Firebase CLI로 생성된 옵션 파일
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -32,10 +18,8 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
+      title: 'Firebase Auth (No Email Verification)',
+      theme: ThemeData(primarySwatch: Colors.blue),
       home: AuthWidget(),
     );
   }
@@ -45,214 +29,157 @@ class AuthWidget extends StatefulWidget {
   const AuthWidget({super.key});
 
   @override
-  State<StatefulWidget> createState() {
-    return AuthWidgetState();
-  }
+  State<AuthWidget> createState() => AuthWidgetState();
 }
-class AuthWidgetState extends State<AuthWidget>{
-  final _formKey = GlobalKey<FormState>();
 
+class AuthWidgetState extends State<AuthWidget> {
+  final _formKey = GlobalKey<FormState>();
   late String email;
   late String password;
   bool isInput = true;
   bool isSignIn = true;
 
-  signIn() async {
-    try{
-      await FirebaseAuth.instance
-          .signInWithEmailAndPassword(email: email, password: password)
-          .then((value) {
-            print(value);
-            if(value.user!.emailVerified){
-              setState(() {
-                isInput = false;
-              });
-            }else {
-              showToast('emailVerified error');
-            }
-            return value;
-      });
-    }on FirebaseAuthException catch(e){
-      if(e.code == 'user-not-found'){
-        showToast('user-not-found');
-      }else if(e.code == 'wrong-password'){
-        showToast('wrong-password');
-      }else {
-        print(e.code);
-      }
-    }
+  void showMessage(BuildContext context, String msg) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text(msg), duration: Duration(seconds: 2)),
+    );
   }
-  signOut() async {
-    await FirebaseAuth.instance.signOut();
-    setState(() {
-      isInput = true;
-    });
-  }
-  signUp() async {
+
+  Future<void> signIn() async {
     try {
-      await FirebaseAuth.instance
-          .createUserWithEmailAndPassword(email: email, password: password)
-          .then((value){
-            if(value.user!.email != null){
-              FirebaseAuth.instance.currentUser?.sendEmailVerification();
-              setState(() {
-                isInput = false;
-              });
-            }
-            return value;
-      });
-    }on FirebaseAuthException catch(e){
-      if(e.code == 'weak-password'){
-        showToast('weak-password');
-      }else if(e.code == 'email-already-in-use'){
-        showToast('email-already-in-use');
-      }else {
-        showToast('other error');
-        print(e.code);
-      }
-    }catch(e){
-      print(e.toString());
+      final userCredential = await FirebaseAuth.instance
+          .signInWithEmailAndPassword(email: email, password: password);
+
+      setState(() => isInput = false);
+    } on FirebaseAuthException catch (e) {
+      showMessage(context, '❌ ${e.message ?? '로그인 실패'}');
     }
+  }
+
+  Future<void> signUp() async {
+    try {
+      final userCredential = await FirebaseAuth.instance
+          .createUserWithEmailAndPassword(email: email, password: password);
+
+      setState(() => isInput = false);
+    } on FirebaseAuthException catch (e) {
+      showMessage(context, '❌ ${e.message ?? '회원가입 실패'}');
+    }
+  }
+
+  Future<void> signOut() async {
+    await FirebaseAuth.instance.signOut();
+    setState(() => isInput = true);
   }
 
   List<Widget> getInputWidget() {
     return [
-      Text(
-        isSignIn ? "SignIn" : "SignUp",
-        style: TextStyle(
-          color: Colors.indigo,
-          fontWeight: FontWeight.bold,
-          fontSize: 20,
+      Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Text(
+          isSignIn ? "Sign In" : "Sign Up",
+          style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+          textAlign: TextAlign.center,
         ),
-        textAlign: TextAlign.center,
       ),
       Form(
-          key: _formKey,
+        key: _formKey,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 24),
           child: Column(
             children: [
               TextFormField(
-                decoration: InputDecoration(labelText: "email"),
-                validator: (value){
-                  if(value?.isEmpty ?? false){
-                    return 'Please enter email';
-                  }
-                  return null;
-                },
-                onSaved: (String? value){
-                  email = value ?? "";
-                },
+                decoration: InputDecoration(labelText: "Email"),
+                validator: (value) =>
+                    value!.isEmpty ? 'Please enter email' : null,
+                onSaved: (value) => email = value ?? "",
               ),
+              SizedBox(height: 16),
               TextFormField(
-                decoration: InputDecoration(labelText: "password"),
+                decoration: InputDecoration(labelText: "Password"),
                 obscureText: true,
-                validator: (value){
-                  if(value?.isEmpty ?? false){
-                    return 'Please enter password';
-                  }
-                  return null;
-                },
-                onSaved: (String? value){
-                  password = value ?? "";
-                },
+                validator: (value) =>
+                    value!.isEmpty ? 'Please enter password' : null,
+                onSaved: (value) => password = value ?? "",
               ),
+              SizedBox(height: 24),
               ElevatedButton(
-                  onPressed: (){
-                    if(_formKey.currentState?.validate() ?? false){
-                      _formKey.currentState?.save();
-                      if(isSignIn){
-                        signIn();
-                      }else {
-                        signUp();
-                      }
-                    }
-                  },
-                  child: Text(isSignIn ? "SignIn" : "SignUp")
+                onPressed: () {
+                  if (_formKey.currentState?.validate() ?? false) {
+                    _formKey.currentState?.save();
+                    isSignIn ? signIn() : signUp();
+                  }
+                },
+                child: Text(isSignIn ? "Sign In" : "Sign Up"),
               ),
+              SizedBox(height: 12),
               RichText(
-                  textAlign: TextAlign.right,
-                  text: TextSpan(
-                    text: 'Go',
-                    style: Theme.of(context).textTheme.bodyLarge,
-                    children: [
-                      TextSpan(
-                        text: isSignIn ? "SignUp" : "SignIn",
-                        style: TextStyle(
+                text: TextSpan(
+                  text: isSignIn ? "Don't have an account? " : "Already signed up? ",
+                  style: Theme.of(context).textTheme.bodyLarge,
+                  children: [
+                    TextSpan(
+                      text: isSignIn ? "Sign Up" : "Sign In",
+                      style: TextStyle(
                           color: Colors.blue,
-                          fontWeight: FontWeight.bold,
                           decoration: TextDecoration.underline,
-                        ),
-                        recognizer: TapGestureRecognizer()
-                          ..onTap = () {
-                            setState(() {
-                              isSignIn = !isSignIn;
-                            });
-                          }
-                      )
-                    ]
-                  )
+                          fontWeight: FontWeight.bold),
+                      recognizer: TapGestureRecognizer()
+                        ..onTap = () {
+                          setState(() {
+                            isSignIn = !isSignIn;
+                          });
+                        },
+                    ),
+                  ],
+                ),
               ),
             ],
-          )
+          ),
+        ),
       ),
     ];
   }
 
   List<Widget> getResultWidget() {
-    String resultEmail = FirebaseAuth.instance.currentUser!.email!;
+    String resultEmail = FirebaseAuth.instance.currentUser?.email ?? '';
     return [
-      Text(
-        isSignIn
-          ? "$resultEmail 로 로그인 하셨습니다.!!"
-            : "$resultEmail 로 회원가입하셨습니다. 이메일 인증을 거쳐야 로그인이 가능합니다.",
-        style: TextStyle(
-          color: Colors.black54,
-          fontWeight: FontWeight.bold,
+      Padding(
+        padding: const EdgeInsets.all(24.0),
+        child: Text(
+          "✅ $resultEmail 로 ${isSignIn ? '로그인' : '회원가입'} 하셨습니다!",
+          style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+          textAlign: TextAlign.center,
         ),
       ),
       ElevatedButton(
-          onPressed: () {
-            if(isSignIn){
-              signOut();
-            }else {
-              setState(() {
-                isInput = true;
-                isSignIn = true;
-              });
-            }
-
-          },
-          child: Text(isSignIn ? "SignOut" : "SignIn"),
+        onPressed: () {
+          if (isSignIn) {
+            signOut();
+          } else {
+            setState(() {
+              isInput = true;
+              isSignIn = true;
+            });
+          }
+        },
+        child: Text(isSignIn ? "Sign Out" : "Back to Sign In"),
       ),
     ];
-
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Auth Test'),),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: isInput ? getInputWidget() : getResultWidget(),
+      appBar: AppBar(
+        title: Text('Firebase Auth Sample'),
+      ),
+      body: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: isInput ? getInputWidget() : getResultWidget(),
+        ),
       ),
     );
   }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

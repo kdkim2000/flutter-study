@@ -60,6 +60,11 @@ dependencies:
   # firebase_core_web: ^2.6.0
   # firebase_auth_web: ^5.8.13
   js: ^0.6.7
+  sembast: ^3.4.8
+  path_provider: ^2.1.2
+  path: ^1.9.0
+  # 웹 지원 시 필요
+  sembast_web: ^2.1.1
 
 dev_dependencies:
   flutter_test:

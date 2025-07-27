@@ -1,154 +1,136 @@
+import 'dart:async';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:sqflite/sqflite.dart';
+import 'package:sembast/sembast.dart';
+import 'package:sembast/sembast_io.dart'; // Mobile
+import 'package:sembast_web/sembast_web.dart'; // Web
+import 'package:path_provider/path_provider.dart';
+import 'package:path/path.dart';
 
 void main() => runApp(MyApp());
 
+class User {
+  int id;
+  String name;
+  String address;
+
+  User(this.id, this.name, this.address);
+
+  Map<String, dynamic> toMap() => {
+        'id': id,
+        'name': name,
+        'address': address,
+      };
+
+  static User fromMap(Map<String, dynamic> map) =>
+      User(map['id'], map['name'], map['address']);
+}
+
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
+      title: 'Sembast UI',
+      theme: ThemeData(primarySwatch: Colors.blue),
       home: NativePluginWidget(),
     );
   }
 }
 
-class User {
-  int? id;
-  String? name;
-  String? address;
-
-  Map<String, Object?> toMap() {
-    var map = <String, Object?>{"name":name, "address": address};
-    if(id != null){
-      map["id"] = id;
-    }
-    return map;
-  }
-
-  User.fromData(this.name, this.address);
-  User.fromMap(Map<String, Object?> map){
-    id = map["id"] as int;
-    name = map["name"] as String;
-    address = map["address"] as String;
-  }
-}
-
 class NativePluginWidget extends StatefulWidget {
   const NativePluginWidget({super.key});
-
   @override
-  State<StatefulWidget> createState() {
-    return NativePluginWidgetState();
-  }
+  State<StatefulWidget> createState() => _NativePluginWidgetState();
 }
-class NativePluginWidgetState extends State<NativePluginWidget>{
+
+class _NativePluginWidgetState extends State<NativePluginWidget> {
+  late Database _db;
+  final _store = intMapStoreFactory.store('user');
+  int lastId = 0;
+  List<User> users = [];
 
   @override
   void initState() {
     super.initState();
-    _createTable();
+    _initDB();
   }
 
-  var db;
-
-  _createTable() async {
-    db = await openDatabase("my_db.db", version: 1, onCreate: (Database db, int version) async {
-      await db.execute('''
-        CREATE TABLE User (
-          id INTEGER PRIMARY KEY,
-          name TEXT,
-          address TEXT
-        )
-      ''');
-    }, onUpgrade: (Database db, int oldVerion, int newVersion) {});
+  Future<void> _initDB() async {
+    if (kIsWeb) {
+      _db = await databaseFactoryWeb.openDatabase('web_users.db');
+    } else {
+      final dir = await getApplicationDocumentsDirectory();
+      final dbPath = join(dir.path, 'mobile_users.db');
+      _db = await databaseFactoryIo.openDatabase(dbPath);
+    }
+    await _loadUsers();
   }
 
-  int lastId = 0;
+  Future<void> _loadUsers() async {
+    final records = await _store.find(_db);
+    users = records.map((rec) => User.fromMap(rec.value)).toList();
+    if (users.isNotEmpty) {
+      lastId = users.map((u) => u.id).reduce((a, b) => a > b ? a : b);
+    }
+    setState(() {});
+  }
 
-  insert() async {
+  Future<void> insert() async {
     lastId++;
-    User user = User.fromData('name$lastId', 'seoul$lastId');
-    lastId = await db.insert("User", user.toMap());
-    print('${user.toMap()}');
-  }
-  update() async {
-    User user = User.fromData('name${lastId -1}', 'seoul${lastId -1}');
-    await db.update('User', user.toMap(), where: 'id=?', whereArgs: [lastId]);
+    var user = User(lastId, 'name$lastId', 'seoul$lastId');
+    await _store.record(user.id).put(_db, user.toMap());
+    await _loadUsers();
   }
 
-  delete() async {
-    await db.delete('User', where: 'id=?', whereArgs: [lastId]);
+  Future<void> update() async {
+    if (lastId == 0) return;
+    var user = User(lastId, 'updatedName$lastId', 'updatedAddress$lastId');
+    await _store.record(user.id).update(_db, user.toMap());
+    await _loadUsers();
+  }
+
+  Future<void> delete() async {
+    if (lastId == 0) return;
+    await _store.record(lastId).delete(_db);
     lastId--;
-  }
-
-  query() async {
-    List<Map> maps = await db.query(
-      'User',
-      columns: ['id', 'name', 'address'],
-    );
-    List<User> users = List.empty(growable: true);
-    for (var element in maps) {
-      users.add(User.fromMap(element as Map<String, Object?>));
-    }
-    if(maps.isNotEmpty){
-      print('select: ${maps.first}');
-    }
-    for (var user in users) {
-      print('${user.name}');
-    }
+    await _loadUsers();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Sqflite'),),
-      body: Container(
-        color: Colors.indigo,
-        child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
+      appBar: AppBar(title: Text('Sembast with UI')),
+      body: Column(
+        children: [
+          ButtonBar(
+            alignment: MainAxisAlignment.center,
             children: [
-              ElevatedButton(
-                  onPressed: insert,
-                  child: Text('insert')
-              ),
-              ElevatedButton(
-                  onPressed: update,
-                  child: Text('update')
-              ),
-              ElevatedButton(
-                  onPressed: delete,
-                  child: Text('delete')
-              ),
-              ElevatedButton(
-                  onPressed: query,
-                  child: Text('query')
-              ),
+              ElevatedButton(onPressed: insert, child: Text('Insert')),
+              ElevatedButton(onPressed: update, child: Text('Update')),
+              ElevatedButton(onPressed: delete, child: Text('Delete')),
             ],
           ),
-        ),
+          Expanded(
+            child: Container(
+              color: Colors.indigo[50],
+              child: users.isEmpty
+                  ? Center(child: Text('No users found'))
+                  : ListView.builder(
+                      itemCount: users.length,
+                      itemBuilder: (context, index) {
+                        final user = users[index];
+                        return ListTile(
+                          leading: CircleAvatar(child: Text('${user.id}')),
+                          title: Text(user.name),
+                          subtitle: Text(user.address),
+                        );
+                      },
+                    ),
+            ),
+          ),
+        ],
       ),
     );
   }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
