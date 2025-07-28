@@ -14,7 +14,8 @@
 - [7장: 외부 패키지 활용하기](chapter7.md)
 - [8장: Firebase 연동](chapter8.md)
 - [9장: 실전: 할 일 목록 앱 만들기](chapter9.md)
-- [부록: Flutter 팁/FAQ/트러블슈팅](appendix.md)
+- [10장: 모바일 앱 개발자를 위한 Flutter(플러터) 제대로 배우기](./flutter_study/lib/chapter_9/README.md)
+- [11장: Doit 깡샘의 플러터&다트 프로그래밍](./flutter_study/lib/chapter_doit/README.md)
 
 ---
 실습 프로젝트 전체 코드는 [src/](src/) 폴더에 있습니다.
