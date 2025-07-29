@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_study/chapter_calorie/workout_manager.dart';
 import './item_card.dart'; // 커스텀 카드 위젯
 import './constants.dart';
 
@@ -12,34 +13,7 @@ class CalorieCalculatorPage extends StatefulWidget {
 }
 
 class _CalorieCalculatorPageState extends State<CalorieCalculatorPage> {
-  final List<String> workouts = [
-    '싯업',
-    '턱걸이',
-    '푸시업',
-    '스쿼트',
-    '덤벨프레스',
-    '크런치',
-    '딥스',
-    '레그컬',
-  ];
-  int selectedIndex = 0;
-  int weight = 20;
-  int reps = 50;
-  int intensity = 7;
-  int basketCount = 0;
-
-  void prevWorkout() {
-    setState(() {
-      selectedIndex = (selectedIndex - 1 + workouts.length) % workouts.length;
-    });
-  }
-
-  void nextWorkout() {
-    setState(() {
-      selectedIndex = (selectedIndex + 1) % workouts.length;
-    });
-  }
-
+  WorkoutManager workoutManager = WorkoutManager();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -67,7 +41,11 @@ class _CalorieCalculatorPageState extends State<CalorieCalculatorPage> {
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
                         IconButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            setState(() {
+                              workoutManager.prevWorkout();
+                            });
+                          },
                           icon: Icon(Icons.arrow_back_ios),
                         ),
                         Icon(
@@ -75,12 +53,16 @@ class _CalorieCalculatorPageState extends State<CalorieCalculatorPage> {
                           color: Theme.of(context).colorScheme.tertiary,
                         ),
                         Text(
-                          '싯업',
+                          workoutManager.getName,
                           style: Theme.of(context).textTheme.titleLarge
                               ?.copyWith(fontWeight: FontWeight.bold),
                         ),
                         IconButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            setState(() {
+                              workoutManager.nextWorkout();
+                            });
+                          },
                           icon: Icon(Icons.arrow_forward_ios),
                         ),
                       ],
@@ -105,7 +87,7 @@ class _CalorieCalculatorPageState extends State<CalorieCalculatorPage> {
                             style: Theme.of(context).textTheme.titleLarge,
                           ),
                           Text(
-                            '60',
+                            workoutManager.getWeight.toString(),
                             style: Theme.of(context).textTheme.titleLarge
                                 ?.copyWith(fontWeight: FontWeight.bold),
                           ),
@@ -113,7 +95,11 @@ class _CalorieCalculatorPageState extends State<CalorieCalculatorPage> {
                             mainAxisAlignment: MainAxisAlignment.spaceAround,
                             children: [
                               IconButton(
-                                onPressed: () {},
+                                onPressed: () {
+                                  setState(() {
+                                    workoutManager.decreaseWeight();
+                                  });
+                                },
                                 icon: Icon(
                                   Icons.do_not_disturb_on,
                                   size: 55,
@@ -121,7 +107,11 @@ class _CalorieCalculatorPageState extends State<CalorieCalculatorPage> {
                                 ),
                               ),
                               IconButton(
-                                onPressed: () {},
+                                onPressed: () {
+                                  setState(() {
+                                    workoutManager.increaseWeight();
+                                  });
+                                },
                                 icon: Icon(
                                   Icons.add_circle,
                                   size: 55,
@@ -146,7 +136,7 @@ class _CalorieCalculatorPageState extends State<CalorieCalculatorPage> {
                             style: Theme.of(context).textTheme.titleLarge,
                           ),
                           Text(
-                            '10',
+                            workoutManager.getGoal.toString(),
                             style: Theme.of(context).textTheme.titleLarge
                                 ?.copyWith(fontWeight: FontWeight.bold),
                           ),
@@ -154,7 +144,11 @@ class _CalorieCalculatorPageState extends State<CalorieCalculatorPage> {
                             mainAxisAlignment: MainAxisAlignment.spaceAround,
                             children: [
                               IconButton(
-                                onPressed: () {},
+                                onPressed: () {
+                                  setState(() {
+                                    workoutManager.increaseGoal();
+                                  });
+                                },
                                 icon: Icon(
                                   Icons.do_not_disturb_on,
                                   size: 55,
@@ -162,7 +156,11 @@ class _CalorieCalculatorPageState extends State<CalorieCalculatorPage> {
                                 ),
                               ),
                               IconButton(
-                                onPressed: () {},
+                                onPressed: () {
+                                  setState(() {
+                                    workoutManager.increaseGoal();
+                                  });
+                                },
                                 icon: Icon(
                                   Icons.add_circle,
                                   size: 55,
@@ -192,16 +190,20 @@ class _CalorieCalculatorPageState extends State<CalorieCalculatorPage> {
                     ),
                     Text('숫자가 높을수록 높은 강도의 운동 입니다.'),
                     Text(
-                      '3',
+                      workoutManager.getInstensity.toString(),
                       style: Theme.of(context).textTheme.titleLarge?.copyWith(
                         fontWeight: FontWeight.bold,
                       ),
                     ),
                     Slider(
-                      value: 7,
+                      value: workoutManager.getInstensity.toDouble(),
                       min: 1,
                       max: 10,
-                      onChanged: (double changedValue) {},
+                      onChanged: (double changedValue) {
+                        setState(() {
+                          workoutManager.setInstensity(changedValue.toInt());
+                        });
+                      },
                       activeColor: Theme.of(context).colorScheme.tertiary,
                     ),
                   ],
@@ -214,21 +216,25 @@ class _CalorieCalculatorPageState extends State<CalorieCalculatorPage> {
                 children: [
                   Expanded(
                     flex: 3,
-                    child: ItemCard(
-                      customMargin: EdgeInsets.all(cardMargin),
-                      customchild: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Icon(
-                            Icons.add_shopping_cart,
-                            size: 50,
-                          ),
-                          Text(
-                            '(0개)',
-                            style: Theme.of(context).textTheme.titleLarge
-                                ?.copyWith(fontWeight: FontWeight.bold),
-                          ),
-                        ],
+                    child: GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          workoutManager.saveWorkout();
+                        });
+                      },
+                      child: ItemCard(
+                        customMargin: EdgeInsets.all(cardMargin),
+                        customchild: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(Icons.add_shopping_cart, size: 50),
+                            Text(
+                              '(${workoutManager.getSaveWorkoutLengt}개)',
+                              style: Theme.of(context).textTheme.titleLarge
+                                  ?.copyWith(fontWeight: FontWeight.bold),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   ),
@@ -236,7 +242,8 @@ class _CalorieCalculatorPageState extends State<CalorieCalculatorPage> {
                     flex: 1,
                     child: ItemCard(
                       customMargin: EdgeInsets.all(cardMargin),
-                      customchild: Icon(Icons.calculate_outlined, size:50),),
+                      customchild: Icon(Icons.calculate_outlined, size: 50),
+                    ),
                   ),
                 ],
               ),

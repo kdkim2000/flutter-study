@@ -1,1 +1,1 @@
-double cardMargin = 10;
+const double cardMargin = 5.0;
