@@ -1,0 +1,1 @@
+double cardMargin = 10;
