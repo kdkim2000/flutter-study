@@ -47,7 +47,7 @@ class AuthWidgetState extends State<AuthWidget> {
 
   Future<void> signIn() async {
     try {
-      final userCredential = await FirebaseAuth.instance
+      await FirebaseAuth.instance
           .signInWithEmailAndPassword(email: email, password: password);
 
       setState(() => isInput = false);
@@ -58,7 +58,7 @@ class AuthWidgetState extends State<AuthWidget> {
 
   Future<void> signUp() async {
     try {
-      final userCredential = await FirebaseAuth.instance
+      await FirebaseAuth.instance
           .createUserWithEmailAndPassword(email: email, password: password);
 
       setState(() => isInput = false);

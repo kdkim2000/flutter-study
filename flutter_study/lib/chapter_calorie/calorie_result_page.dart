@@ -24,7 +24,7 @@ class _CalorieResultPageState extends State<CalorieResultPage> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Expanded(
-            flex: 2,
+            flex: 1,
             child: Center(
               child: Text(
                 '결과',
@@ -53,7 +53,9 @@ class _CalorieResultPageState extends State<CalorieResultPage> {
           Expanded(
             flex: 1,
             child: TextButton.icon(
-              onPressed: () {},
+              onPressed: () {
+                Navigator.of(context).pop(); // 이전 페이지로 돌아가기);
+              },
               icon: const Icon(Icons.refresh, size: 30),
               label: Text(
                 '다시계산',
@@ -68,3 +70,5 @@ class _CalorieResultPageState extends State<CalorieResultPage> {
     );
   }
 }
+
+

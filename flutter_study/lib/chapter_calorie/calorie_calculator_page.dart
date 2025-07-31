@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_study/chapter_calorie/workout_manager.dart';
-import './item_card.dart'; // 커스텀 카드 위젯
+import './item_card.dart';
+import './calorie_result_page.dart';
 import './constants.dart';
 
 class CalorieCalculatorPage extends StatefulWidget {
@@ -240,9 +241,22 @@ class _CalorieCalculatorPageState extends State<CalorieCalculatorPage> {
                   ),
                   Expanded(
                     flex: 1,
-                    child: ItemCard(
-                      customMargin: EdgeInsets.all(cardMargin),
-                      customchild: Icon(Icons.calculate_outlined, size: 50),
+                    child: GestureDetector(
+                      onTap: () {
+                        Navigator.pushNamed(
+                          context,
+                          CalorieResultPage.routeName,
+                          arguments: workoutManager.getTotalCalories(),
+                        ).then((value) {
+                          setState(() {
+                            workoutManager.resetSaveWorkoutCalories();
+                          });
+                        });
+                      },
+                      child: ItemCard(
+                        customMargin: EdgeInsets.all(cardMargin),
+                        customchild: Icon(Icons.calculate_outlined, size: 50),
+                      ),
                     ),
                   ),
                 ],

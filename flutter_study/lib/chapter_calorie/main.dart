@@ -30,9 +30,7 @@ class MyApp extends StatelessWidget {
         swapLegacyOnMaterial3: true,
       ),
       themeMode: ThemeMode.light,
-      // home: const Scaffold( // 👈 기본 home 설정
-      //   body: Center(child: Text('Flex Color Scheme App')),
-      // ),
+
       initialRoute: CalorieCalculatorPage.routeName,
       routes: {
         CalorieCalculatorPage.routeName: (context) => CalorieCalculatorPage(),
